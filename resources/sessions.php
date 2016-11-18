@@ -1,9 +1,15 @@
 <?php
 	function handleRequest($connection, $request, $params) {
 		if ($request == "POST") {
-			return array("session" => startSession($connection, $params["login"], $params["password"]));
+			$result = startSession($connection, $params["login"], $params["password"]);
 		} else {
 			return array("error" => "Invalid request");
+		}
+
+		if ($result["error"]) {
+			return $result;
+		} else {
+			return array("data" => $result); 
 		}
 	}
 

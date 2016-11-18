@@ -1,9 +1,15 @@
 <?php
 	function handleRequest($connection, $request, $params) {
 		if ($request == "POST") {
-			return array("user" => registerUser($connection, $params["login"], $params["name"], $params["password"]));
+			$result = registerUser($connection, $params["login"], $params["name"], $params["password"]);
 		} else {
 			return array("error" => "Invalid request");
+		}
+
+		if ($result["error"]) {
+			return $result;
+		} else {
+			return array("data" => $result); 
 		}
 	}
 
