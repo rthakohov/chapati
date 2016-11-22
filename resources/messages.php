@@ -1,7 +1,7 @@
 <?php
 	function handleRequest($connection, $request, $params) {
 		if ($request == "POST") {
-			$result = sendMessage($connection, $params["senderLogin"], $params["senderName"], $params["messageText"], $params["attachmentUrl"]);
+			$result = sendMessage($connection, $params["senderLogin"], $params["senderName"], $params["messageText"], $params["attachmentId"]);
 		} else if ($request == "GET") {
 			$result = getNewMessages($connection, $params["count"], $params["start"], $params["end"]);
 		} else {
@@ -15,10 +15,9 @@
 		}
 	}
 
-	//TODO: Process the attachment URL
-	function sendMessage($connection, $login, $name, $text, $attachmentUrl) {
+	function sendMessage($connection, $login, $name, $text, $attachmentId) {
 		require_once 'database/messages.php';
-		$message = addMessage($connection, $login, $name, htmlspecialchars($text), 0);
+		$message = addMessage($connection, $login, $name, htmlspecialchars($text), $attachmentId);
 		if ($message) {
 			return $message;
 		} else {

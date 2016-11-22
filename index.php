@@ -22,7 +22,7 @@
 
     $result = handleRequest($connection, $_SERVER["REQUEST_METHOD"], $_REQUEST);
 
-    echo json_encode($result);
+    echo stripslashes(json_encode($result));
 
 	closeConnection($connection);
 ?>
