@@ -31,27 +31,13 @@
 
 		$token = sha1(rand());
 		$sessionId = addSession($connection, $user["id"], $token);
+		unset($user["password"]);
+		unset($user["salt"]);
 		if ($sessionId) {
-            return array("id" => $sessionId, "user_id" => $user["id"], "token" => $token);
+            return array("id" => $sessionId, "token" => $token,
+            	"user" => $user);
 		} else {
 			return array("error" => "Failed to log in!");
-		}
-	}
-
-	function verifyCredentials($connection, $id, $token) {
-		require_once 'database/sessions.php';
-
-		$session = findSession($connection, $id);
-		if ($session) {
-			$lastActive = $session["last_active"];
-			if (time() - strtotime($lastActive) > 86400) {
-				deleteSession($session["id"]);
-				return false;
-			}
-			updateSession($connection, $id);
-			return true;
-		} else {
-			return false;
 		}
 	}
 

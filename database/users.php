@@ -48,7 +48,7 @@
     }
 
     function createUser($id, $login, $name, $password, $salt) {
-        return array("id" => $id, "login" => $_login, "name" => $name, 
+        return array("id" => $id, "login" => $login, "name" => $name, 
                     "password" => $password, "salt" => $salt);
     }
 ?>

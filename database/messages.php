@@ -1,14 +1,14 @@
 <?php
 	function addMessage($connection, $senderLogin, $senderName, $text, $attachmentId) {
 		$stmt = mysqli_stmt_init($connection);
-        if (mysqli_stmt_prepare($stmt, "INSERT INTO messages(sender_id, sender_login, sender_name, message_text, attachment_id) VALUES(?, ?, ?, ?, ?)")) {
-            mysqli_stmt_bind_param($stmt, "isss", $senderLogin, $senderName, $text, $attachmentId);
+        if (mysqli_stmt_prepare($stmt, "INSERT INTO messages(senderLogin, senderName, messageText, attachmentId) VALUES(?, ?, ?, ?)")) {
+            mysqli_stmt_bind_param($stmt, "sssi", $senderLogin, $senderName, $text, $attachmentId);
             mysqli_stmt_execute($stmt);
 
             $error = mysqli_stmt_error($stmt);
             $id = mysqli_stmt_insert_id($stmt);
 
-            $result = mysqli_query($connection, "SELECT * FROM users WHERE id = $id");
+            $result = mysqli_query($connection, "SELECT * FROM messages WHERE id = $id");
 
             mysqli_stmt_close($stmt);
 
@@ -34,10 +34,19 @@
         return false;
     }
 
-	function getMessagesById($connection, $greaterThan) {
+	function getMessagesById($connection, $start, $end) {
         $stmt = mysqli_stmt_init($connection);
-        if (mysqli_stmt_prepare($stmt, "SELECT * FROM messages WHERE id > ? ORDER BY id DESC")) {
-            mysqli_stmt_bind_param($stmt, "i", $greaterThan);
+        if ($start && $end) {
+            $prepared = mysqli_stmt_prepare($stmt, "SELECT * FROM messages WHERE id >= ? AND id < ? ORDER BY id DESC");
+        } else {
+            $prepared = mysqli_stmt_prepare($stmt, "SELECT * FROM messages WHERE id >= ? ORDER BY id DESC");
+        }
+        if ($prepared) {
+            if ($start && $end) {
+                mysqli_stmt_bind_param($stmt, "ii", $start, $end);
+            } else {
+                mysqli_stmt_bind_param($stmt, "i", $start);
+            }
             mysqli_stmt_execute($stmt);
             mysqli_stmt_bind_result($stmt, $id, $senderLogin, $senderName, $text, $attachmentId, $tc);
 
@@ -52,7 +61,7 @@
     }    
 
 	function createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentId) {
-		return array("id" => $id, "sender_login" => $senderLogin, "sender_name" => $senderName,
-			"message_text" => $text, "attachment_id" => $attachmentId, "_tc" => $tc);
+		return array("id" => $id, "senderLogin" => $senderLogin, "senderName" => $senderName,
+			"messageText" => $text, "attachmentId" => $attachmentId, "timestamp" => $tc);
 	}
 ?>

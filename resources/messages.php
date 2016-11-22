@@ -1,9 +1,9 @@
 <?php
 	function handleRequest($connection, $request, $params) {
 		if ($request == "POST") {
-			$result = sendMessage($connection, $params["sender_login"], $params["sender_name"], $params["message_text"], $params["attachment_url"]);
+			$result = sendMessage($connection, $params["senderLogin"], $params["senderName"], $params["messageText"], $params["attachmentUrl"]);
 		} else if ($request == "GET") {
-			$result = getNewMessages($connection, $params["count"], $params["id"]);
+			$result = getNewMessages($connection, $params["count"], $params["start"], $params["end"]);
 		} else {
 			return array("error" => "Invalid request");
 		}
@@ -27,13 +27,12 @@
 	}
 
 	// Returns the last $count messages
-	function getNewMessages($connection, $count, $id) {
+	function getNewMessages($connection, $count, $start, $end) {
 		require_once 'database/messages.php';
 		if ($count) {
-			echo "here";
 			$messages = getMessages($connection, $count);
 		} else {
-			$messages = getMessagesById($connection, $id);
+			$messages = getMessagesById($connection, $start, $end);
 		}
 		if ($messages) {
 			return $messages;
