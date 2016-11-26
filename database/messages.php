@@ -1,8 +1,8 @@
 <?php
-	function addMessage($connection, $senderLogin, $senderName, $text, $attachmentId) {
+	function addMessage($connection, $senderLogin, $senderName, $text, $attachmentUrl, $mentions) {
 		$stmt = mysqli_stmt_init($connection);
-        if (mysqli_stmt_prepare($stmt, "INSERT INTO messages(senderLogin, senderName, messageText, attachmentId) VALUES(?, ?, ?, ?)")) {
-            mysqli_stmt_bind_param($stmt, "sssi", $senderLogin, $senderName, $text, $attachmentId);
+        if (mysqli_stmt_prepare($stmt, "INSERT INTO messages(senderLogin, senderName, messageText, attachmentUrl, mentions) VALUES(?, ?, ?, ?, ?)")) {
+            mysqli_stmt_bind_param($stmt, "sssss", $senderLogin, $senderName, $text, $attachmentUrl, $mentions);
             mysqli_stmt_execute($stmt);
 
             $error = mysqli_stmt_error($stmt);
@@ -22,11 +22,11 @@
         if (mysqli_stmt_prepare($stmt, "SELECT * FROM messages ORDER BY id DESC LIMIT ?")) {
             mysqli_stmt_bind_param($stmt, "i", $count);
             mysqli_stmt_execute($stmt);
-            mysqli_stmt_bind_result($stmt, $id, $senderLogin, $senderName, $text, $attachmentId, $tc);
+            mysqli_stmt_bind_result($stmt, $id, $senderLogin, $senderName, $text, $attachmentUrl, $mentions, $tc);
 
             $messages = array();
             while (mysqli_stmt_fetch($stmt)) {
-            	array_push($messages, createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentId));
+            	array_push($messages, createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentUrl, $mentions));
             }
             mysqli_stmt_close($stmt);
             return $messages;
@@ -48,11 +48,11 @@
                 mysqli_stmt_bind_param($stmt, "i", $start);
             }
             mysqli_stmt_execute($stmt);
-            mysqli_stmt_bind_result($stmt, $id, $senderLogin, $senderName, $text, $attachmentId, $tc);
+            mysqli_stmt_bind_result($stmt, $id, $senderLogin, $senderName, $text, $attachmentUrl, $mentions, $tc);
 
             $messages = array();
             while (mysqli_stmt_fetch($stmt)) {
-            	array_push($messages, createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentId));
+            	array_push($messages, createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentUrl));
             }
             mysqli_stmt_close($stmt);
             return $messages;
@@ -60,8 +60,8 @@
         return false;
     }    
 
-	function createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentId) {
+	function createMessage($id, $senderLogin, $senderName, $text, $tc, $attachmentUrl, $mentions) {
 		return array("id" => $id, "senderLogin" => $senderLogin, "senderName" => $senderName,
-			"messageText" => $text, "attachmentId" => $attachmentId, "timestamp" => $tc);
+			"messageText" => $text, "attachmentUrl" => $attachmentUrl, "mentions" => $mentions, "timestamp" => $tc);
 	}
 ?>

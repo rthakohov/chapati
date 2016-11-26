@@ -20,13 +20,14 @@
 
 		$filename = substr(sha1(rand()), 0, 10);
 		
-		$result = file_put_contents("../../img/$filename.$extension", base64_decode($imageData));
+		$result = file_put_contents("../../htdocs/img/$filename.$extension", base64_decode($imageData));
 
 		if ($result) {
-			$query = mysqli_query($connection, "INSERT INTO attachments(url) VALUES('$filename.$extension')");
+			$url = "http://localhost:8888/img/$filename.$extension";
+			$query = mysqli_query($connection, "INSERT INTO attachments(url) VALUES('$url')");
 			if (!mysqli_errno($connection)) {
 				$id = mysqli_insert_id($connection);
-				return array("id" => $id, "url" => "$filename.$extension");
+				return array("id" => $id, "url" => $url);
 			}
 		}
 
@@ -38,12 +39,7 @@
 
 		$attachment = getAttachment($connection, $attachmentId);
 		if ($attachment) {
-			$from = "../../img/".$attachment["url"];
-			$to = "../../htdocs/tmp/".$attachment["url"];
-			if (copy("../../img/".$attachment["url"], "../../htdocs/tmp/".$attachment["url"])) {
-				$attachment["url"] = "http://localhost:8888/tmp/".$attachment["url"];
-				return $attachment;
-			}
+			return $attachment;
 		} 
 
 		return array("error" => "Failed to get image!");

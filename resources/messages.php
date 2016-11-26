@@ -1,9 +1,14 @@
 <?php
 	function handleRequest($connection, $request, $params) {
 		if ($request == "POST") {
-			$result = sendMessage($connection, $params["senderLogin"], $params["senderName"], $params["messageText"], $params["attachmentId"]);
+			$result = sendMessage($connection, $params["senderLogin"], $params["senderName"], $params["messageText"],
+			 $params["attachmentUrl"]);
 		} else if ($request == "GET") {
-			$result = getNewMessages($connection, $params["count"], $params["start"], $params["end"]);
+			if ($params["lastLoadedId"]) {
+				$result = waitForNewMessages($connection, $params["lastLoadedId"], $params["timeout"]);
+			} else {
+				$result = getNewMessages($connection, $params["count"], $params["start"], $params["end"]);
+			}
 		} else {
 			return array("error" => "Invalid request");
 		}
@@ -15,9 +20,9 @@
 		}
 	}
 
-	function sendMessage($connection, $login, $name, $text, $attachmentId) {
+	function sendMessage($connection, $login, $name, $text, $attachmentUrl) {
 		require_once 'database/messages.php';
-		$message = addMessage($connection, $login, $name, htmlspecialchars($text), $attachmentId);
+		$message = addMessage($connection, $login, $name, htmlspecialchars($text), $attachmentUrl);
 		if ($message) {
 			return $message;
 		} else {
@@ -38,5 +43,21 @@
 		} else {
 			return array("error" => "Failed to get messages.");
 		}
+	}
+
+	function waitForNewMessages($connection, $lastLoadedId, $timeout) {
+		require_once 'database/messages.php';
+		if (!$timeout) {
+			$timeout = 60;
+		}
+		while ($timeout) {
+			$messages = getMessagesById($connection, $lastLoadedId);
+			if ($messages) {
+				return $messages;
+			}
+			sleep(1);
+			$timeout--;
+		}
+		return array("error" => "Failed to get messages.");
 	}
 ?>

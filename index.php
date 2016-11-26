@@ -1,7 +1,7 @@
 <?php
 	require_once 'database/connect.php';
 	$connection = createConnection();
-	
+
 	$urlComponents = parse_url($_SERVER["REQUEST_URI"]);
 	$resource = explode("/", $urlComponents["path"])[3];
 	if( file_exists("resources/{$resource}.php") ) {
@@ -19,10 +19,10 @@
 	       //die();
     	}
     }
-
+    
     $result = handleRequest($connection, $_SERVER["REQUEST_METHOD"], $_REQUEST);
 
-    echo stripslashes(json_encode($result));
+    echo (json_encode($result));
 
 	closeConnection($connection);
 ?>
