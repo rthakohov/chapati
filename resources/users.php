@@ -13,6 +13,33 @@ function handleRequest($connection, $request, $params) {
 	}
 }
 
+
+/**
+ * @api {post} /users/:login:name:password Register a new user
+ * @apiName RegisterUser
+ * @apiGroup User
+ *
+ * @apiParam {String} login User's login.
+ * @apiParam {String} name User's name.
+ * @apiParam {String} password User's password.
+ *
+ * @apiSuccess {Object} data  User information.
+ *
+ * @apiSuccessExample Success-Response:
+ *     {
+ *       "data": {
+ 	       "id" : 12,
+		   "login" : "john",
+		   "name" : "John Doe" 
+	     }
+ }
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     {
+ *       "error": "User with this login already exists!"
+ *     }
+ */
 function registerUser($connection, $login, $name,  $password) {
 	require_once 'database/users.php';
 	if (findUser($connection, $login)) {

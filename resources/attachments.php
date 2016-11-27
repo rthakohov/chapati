@@ -15,6 +15,29 @@ function handleRequest($connection, $request, $params) {
 	}
 }
 
+/**
+ * @api {post} /images/:imageData:extension Upload a new image
+ * @apiName UploadImage
+ * @apiGroup Attachments
+ *
+ * @apiParam {String} data Base64-encoded image data.
+ * @apiParam {String} extension image file extension (e.g. jpg).
+ *
+ * @apiSuccess {Object} data  Image information.
+ *
+ * @apiSuccessExample Success-Response:
+ *     {
+ *       "data": {
+ 	       "id" : 12,
+		   "url" : "http://example.com/image.jpg"
+	     }
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     {
+ *       "error": "Failed to upload image!"
+ *     }
+ */
 function uploadImage($connection, $imageData, $extension) {
 	require_once 'database/attachments.php';
 
@@ -34,6 +57,28 @@ function uploadImage($connection, $imageData, $extension) {
 	return array("error" => "Failed to upload image!");
 }
 
+/**
+ * @api {get} /images/:imageId Get an image
+ * @apiName GetImage
+ * @apiGroup Attachments
+ *
+ * @apiParam {String} id Image unique id
+ *
+ * @apiSuccess {Object} data  Image information.
+ *
+ * @apiSuccessExample Success-Response:
+ *     {
+ *       "data": {
+ 	       "id" : 12,
+		   "url" : "http://example.com/image.jpg"
+	     }
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     {
+ *       "error": "Failed to get image!"
+ *     }
+ */
 function getImage($connection, $attachmentId) {
 	require_once 'database/attachments.php';
 

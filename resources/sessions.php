@@ -13,6 +13,33 @@ function handleRequest($connection, $request, $params) {
 	}
 }
 
+/**
+ * @api {post} /sessions/:login:password Start a new session for a user
+ * @apiName StartSession
+ * @apiGroup Sessions
+ *
+ * @apiParam {String} login User's login.
+ * @apiParam {String} password User's password.
+ *
+ * @apiSuccess {Object} data  Session information.
+ *
+ * @apiSuccessExample Success-Response:
+ *     {
+ *       "data": {
+ 	       "id" : 12,
+		   "token" : "fsafa54faa654fas4fas",
+		   "user" : {
+	 	       "id" : 12,
+			   "login" : "john",
+			   "name" : "John Doe" 
+		   }
+	     }
+ *     }
+ *
+ * @apiErrorExample Error-Response:
+ *     {
+ *       "error": "Wrong login or password!"
+ */   
 function startSession($connection, $login,  $password) {
 	require_once 'database/sessions.php';
 	require_once 'database/users.php';
