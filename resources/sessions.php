@@ -26,14 +26,14 @@ function handleRequest($connection, $request, $params) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": {
- 	       "id" : 12,
-		   "token" : "fsafa54faa654fas4fas",
-		   "user" : {
-	 	       "id" : 12,
-			   "login" : "john",
-			   "name" : "John Doe" 
-		   }
-	     }
+ *	       "id" : 12,
+ *		   "token" : "fsafa54faa654fas4fas",
+ *		   "user" : {
+ *	 	       "id" : 12,
+ *			   "login" : "john",
+ *			   "name" : "John Doe" 
+ *		   }
+ *	     }
  *     }
  *
  * @apiErrorExample Error-Response:

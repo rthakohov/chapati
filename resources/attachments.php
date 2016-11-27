@@ -28,9 +28,9 @@ function handleRequest($connection, $request, $params) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": {
- 	       "id" : 12,
-		   "url" : "http://example.com/image.jpg"
-	     }
+ * 	       "id" : 12,
+ *		   "url" : "http://example.com/image.jpg"
+ *	     }
  *     }
  *
  * @apiErrorExample Error-Response:
@@ -69,9 +69,9 @@ function uploadImage($connection, $imageData, $extension) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": {
- 	       "id" : 12,
-		   "url" : "http://example.com/image.jpg"
-	     }
+ *	       "id" : 12,
+ *		   "url" : "http://example.com/image.jpg"
+ *	     }
  *     }
  *
  * @apiErrorExample Error-Response:

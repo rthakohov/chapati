@@ -35,12 +35,11 @@ function handleRequest($connection, $request, $params) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": {
- 	       "senderLogin" : "john",
- 	       "senderName" : "John Doe",
- 	       "text" : "Hi! How are you?",
-		   "attachmentUrl" : "http://example.com/image.jpg"
-	     }
- }
+ *	       "senderLogin" : "john",
+ *	       "senderName" : "John Doe",
+ *	       "text" : "Hi! How are you?",
+ *		   "attachmentUrl" : "http://example.com/image.jpg"
+ *	     }
  *     }
  *
  * @apiErrorExample Error-Response:
@@ -73,18 +72,18 @@ function sendMessage($connection, $login, $name, $text, $attachmentUrl) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": [
- 	       0: {"senderLogin" : "john",
- 	       	"senderName" : "John Doe",
- 	       	"text" : "Hi! How are you?",
-		   	"attachmentUrl" : "http://example.com/image.jpg"
-		   }
-	     ]
- }
+ *	       0: {"senderLogin" : "john",
+ *	       	"senderName" : "John Doe",
+ *	       	"text" : "Hi! How are you?",
+ *		   	"attachmentUrl" : "http://example.com/image.jpg"
+ *		   }
+ *	     ]
  *     }
  *
  * @apiErrorExample Error-Response:
  *     {
  *       "error": "Failed to get messages!"
+ *     }
  */    
 function getNewMessages($connection, $count, $start, $end) {
 	require_once 'database/messages.php';
@@ -115,18 +114,18 @@ function getNewMessages($connection, $count, $start, $end) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": [
- 	       0: {"senderLogin" : "john",
- 	       	"senderName" : "John Doe",
- 	       	"text" : "Hi! How are you?",
-		   	"attachmentUrl" : "http://example.com/image.jpg"
-		   }
-	     ]
- }
+ *	       0: {"senderLogin" : "john",
+ *	       	"senderName" : "John Doe",
+ *	       	"text" : "Hi! How are you?",
+ *		   	"attachmentUrl" : "http://example.com/image.jpg"
+ *		   }
+ *	     ]
  *     }
  *
  * @apiErrorExample Error-Response:
  *     {
  *       "error": "Failed to get messages!"
+ *     }
  */   
 function waitForNewMessages($connection, $lastLoadedId, $timeout) {
 	require_once 'database/messages.php';

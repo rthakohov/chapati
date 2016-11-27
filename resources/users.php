@@ -28,11 +28,10 @@ function handleRequest($connection, $request, $params) {
  * @apiSuccessExample Success-Response:
  *     {
  *       "data": {
- 	       "id" : 12,
-		   "login" : "john",
-		   "name" : "John Doe" 
-	     }
- }
+ *	       "id" : 12,
+ *	       "login" : "john",
+ *		   "name" : "John Doe" 
+ *	     }
  *     }
  *
  * @apiErrorExample Error-Response:
